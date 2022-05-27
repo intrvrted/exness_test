@@ -1,0 +1,20 @@
+{{- if .Values.metrics.serviceMonitor.enabled -}}
+{{- if .Capabilities.APIVersions.Has "monitoring.coreos.com/v1" -}}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ include "webserver.fullname" . }}-servicemonitor
+  labels:
+    app: {{ include "webserver.fullname" . }}
+spec:
+  endpoints:
+  - interval: 30s
+    port: {{ .Values.metrics.portName }}
+    path: /metrics
+  selector:
+    matchLabels:
+      app: {{ include "webserver.fullname" . }}
+  namespaceSelector:
+    any: true
+{{- end }}
+{{- end }}

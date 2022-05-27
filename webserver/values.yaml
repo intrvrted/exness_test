@@ -1,0 +1,44 @@
+metrics:
+  ## Define a name for the metrics port
+  ##
+  portName: http
+
+  ## Provide a port number for the integrated Prometheus metrics exporter
+  ##
+  port: 80
+
+  ## Configure a prometheus-operator serviceMonitor to allow autodetection of
+  ## the scraping target. Requires enabling the service resource below.
+  ##
+  serviceMonitor:
+    enabled: true
+
+image:
+  # repository: exness-dev-repo.com/webserver
+  repository: 341932954228.dkr.ecr.us-east-1.amazonaws.com/test/webserver
+  pullPolicy: Always
+  tag: ""
+env:
+  SQLITE: false
+
+securityContext:
+  readOnlyRootFilesystem: true
+  allowPrivilegeEscalation: false
+
+service:
+  type: NodePort
+  port: 80
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 256Mi
+  requests:
+    cpu: 100m
+    memory: 256Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
